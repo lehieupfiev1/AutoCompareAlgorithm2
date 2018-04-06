@@ -30,7 +30,7 @@ public class AutoCompareAlgorithm2 {
         CompareAlgorithm algorithm = new CompareAlgorithm();
         //initData();
         //Chay test case tu 6 den 10
-        for (int i = 8; i <= 8; i++) {
+        for (int i = 14; i <= 14; i++) {
             try {
                 //Cai dat ten File
                 String filename = "test"+i+".INP";
@@ -53,12 +53,12 @@ public class AutoCompareAlgorithm2 {
             }
         }
         System.out.println("Running Finish ");
-        JOptionPane.showMessageDialog(null, "Compare Algorithm run finished !");
+        JOptionPane.showMessageDialog(null, "Compare EECC Algorithm run finished !");
     }
     
     static double calculateTotalTime() {
         double totalTime =0;
-        for (int i = 0; i < mListofListSensor.size(); i++) {
+        for (int i = 0; i < mListofListTime.size(); i++) {
             Double next = mListofListTime.get(i);
             totalTime+=next;
         }
