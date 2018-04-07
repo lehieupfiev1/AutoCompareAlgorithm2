@@ -643,7 +643,8 @@ public class CompareAlgorithm {
                     IsCover[i] = true;
                     break;
                 }
-
+                back = null;
+                weight = null;
             }
         }
         
@@ -656,7 +657,7 @@ public class CompareAlgorithm {
                 break;
             }
         }
-         
+        Matrix = null;
         if (count == listStart.size()) return true;
         return false;
         
@@ -952,6 +953,7 @@ public class CompareAlgorithm {
         listTime = null;
         Point = null;
         Distance = null;
+        MinDistanceSink = null;
         ListEnergySensor = null;
     }
 
