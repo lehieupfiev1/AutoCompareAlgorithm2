@@ -41,6 +41,7 @@ public class EECCAlgorithm1 {
     List<Integer> temp_hopper;
     List<Integer> previous_hopper;
     List<Integer> ListNcr ; // Tap list relaying node
+    List<Integer> listTarget;
     float ListEnergySensor[];
     int MAX_INTERGER = 100000000;
     float MAX_FLOAT = 10000000000000.0f;
@@ -173,7 +174,7 @@ public class EECCAlgorithm1 {
         for (int i = 0; i < mListSensorNodes.size(); i++) {
             listSensor.add(i);
         }
-        List<Integer> listTarget = new ArrayList<>();
+        listTarget = new ArrayList<>();
         for (int i = 0; i < mListTargetNodes.size(); i++) {
             listTarget.add(i);
         }
@@ -532,39 +533,64 @@ public class EECCAlgorithm1 {
     
 //Calculate Energy Comsumpation
     public void Calculate_Energy_Consumption(List<Integer> listSink, List<List<Integer>> listPath, float ListEcr[]) {
+        int numberListPath[] = new int[listPath.size()];
+        for (int i =0; i < numberListPath.length;i++) {
+            numberListPath[i] = 0;
+        }
+        boolean checkTarget[] = new boolean[listTarget.size()];
+        int count =0;
+        for (int i =0; i < listPath.size(); i++) {
+            List<Integer> path = listPath.get(i);
+            int startPoint = path.get(0);
+            for (int j = 0; j < listTarget.size(); j++) {
+                if (!checkTarget[j] && Distance[startPoint][N+j] <= Rs) {
+                    checkTarget[j] = true;
+                    int num = numberListPath[i];
+                    num++;
+                    numberListPath[i] = num;
+                    count++;
+                }
+            }
+
+        }
+        System.out.println("Size target = "+listTarget.size() + "---- Size do phu count ="+count);
+        
         for (int i = 0; i < listPath.size(); i++) {
             List<Integer> path = listPath.get(i);
+            int num = numberListPath[i];
             if (path.size() == 1) {
                 //Chi co 1 node trung gian
                 //Tieu hoa = recive + sending + tranfer
 
                 float minDistane = 100000000000000.0f;
-                for(int j =0;j<listSink.size();j++) {
-                    if (Distance[path.get(0)][N+T+listSink.get(j)] < minDistane) {
-                        minDistane = Distance[path.get(0)][N+T+listSink.get(j)];
-                    }
-                }
-                ListEcr[path.get(0)] += Es+Er + TranferEnergy(minDistane);
+//                for(int j =0;j<listSink.size();j++) {
+//                    if (Distance[path.get(0)][N+T+listSink.get(j)] < minDistane) {
+//                        minDistane = Distance[path.get(0)][N+T+listSink.get(j)];
+//                    }
+//                }
+                minDistane = MinDistanceSink[path.get(0)]; 
+                ListEcr[path.get(0)] += (Es +Er+ TranferEnergy(minDistane))* num;
 
             } else {
                 //Tinh diem dau tien
                 int start = path.get(0);
-                ListEcr[start] += Es+ TranferEnergy(Distance[start][path.get(1)]);
+                ListEcr[start] += (Es+ TranferEnergy(Distance[start][path.get(1)]))*num;
                 
                 //Tinh diem trung gian
                 for (int j = 1; j < path.size()-1; j++) {
-                    ListEcr[path.get(j)] += Er + TranferEnergy(Distance[path.get(j)][path.get(j+1)]);
+                    ListEcr[path.get(j)] += (Er + TranferEnergy(Distance[path.get(j)][path.get(j+1)]))*num;
                 }
                 
                 //Tinh diem cuoi
                 int end = path.get(path.size()-1);
                 float minDistane = 100000000000000.0f;
-                for(int j =0;j<listSink.size();j++) {
-                    if (Distance[end][N+T+listSink.get(j)] < minDistane) {
-                        minDistane = Distance[end][N+T+listSink.get(j)];
-                    }
-                }
-                ListEcr[end] += Er + TranferEnergy(minDistane);
+//                for(int j =0;j<listSink.size();j++) {
+//                    if (Distance[end][N+T+listSink.get(j)] < minDistane) {
+//                        minDistane = Distance[end][N+T+listSink.get(j)];
+//                    }
+//                }
+                minDistane = MinDistanceSink[end];
+                ListEcr[end] += (Er + TranferEnergy(minDistane))*num;
             }
         }
 

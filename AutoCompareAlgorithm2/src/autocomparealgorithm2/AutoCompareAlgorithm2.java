@@ -23,14 +23,15 @@ public class AutoCompareAlgorithm2 {
      */
    public static long timeRuning;
     public static double timeLifeOn;
-    public static String mPath = "E:\\HIEU\\CAO HOC\\SensorSimulationProject\\SensorDemo\\";
+    public static String mPath = "E:\\HIEU\\CAO HOC\\Testcase\\";
     
     public static void main(String[] args) {
         // TODO code application logic here
-        CompareAlgorithm algorithm = new CompareAlgorithm();
+        //CompareAlgorithm algorithm = new CompareAlgorithm();
+        EECCAlgorithm1 algorithm = new EECCAlgorithm1();
         //initData();
         //Chay test case tu 6 den 10
-        for (int i = 14; i <= 14; i++) {
+        for (int i = 13; i <= 13; i++) {
             try {
                 //Cai dat ten File
                 String filename = "test"+i+".INP";
@@ -46,7 +47,7 @@ public class AutoCompareAlgorithm2 {
                 Logger.getLogger(AutoCompareAlgorithm2.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                writeResultFile(mPath+"CompareResult2.txt", i, timeRuning, timeLifeOn); //Url luu file input duoc sinh ra
+                writeResultFile(mPath+"NewCompareResult2.txt", i, timeRuning, timeLifeOn); //Url luu file input duoc sinh ra
                 resetData();
             } catch (IOException ex) {
                 Logger.getLogger(AutoCompareAlgorithm2.class.getName()).log(Level.SEVERE, null, ex);
