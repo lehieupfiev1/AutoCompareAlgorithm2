@@ -9,7 +9,8 @@ import static autocomparealgorithm2.SensorUtility.mListSensorNodes;
 import static autocomparealgorithm2.SensorUtility.mListSinkNodes;
 import static autocomparealgorithm2.SensorUtility.mListTargetNodes;
 import static autocomparealgorithm2.SensorUtility.mListofListSensor;
-import static autocomparealgorithm2.SensorUtility.mListofListTime;
+import static autocomparealgorithm2.SensorUtility.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -440,6 +441,8 @@ public class EECCAlgorithm1 {
         Calculate_Path_ToSink(listStart,listTarget,listEECCcnt,ListPathSensor);
         
         //Tinh toan nang luong tieu thu qua cac sensor;
+        
+        SensorUtility.mListofListEECC.add(ListPathSensor);
 
         Calculate_Energy_Consumption(listSink,ListPathSensor,listEcr);
         
@@ -639,7 +642,7 @@ public class EECCAlgorithm1 {
     public boolean CheckConectivity(List<Integer> listStart, boolean IsCover[], List<Integer> listEECCcnt) {
         //Create matrix Distance from ListEECCcnt
        int N1 = listEECCcnt.size();
-       int Matrix[][] = new int[N1+1][N1+1];// Them 1 bien lu khoang cach nhỏ nhat đen bien 
+       int Matrix[][] = new int[N1+1][N1+1];// Them 1 bien lu khoang cach nhá»� nhat Ä‘en bien 
        for (int i = 0; i<listEECCcnt.size();i++) {
            for (int j =0; j <= i;j++) {
                if (i == j) {
@@ -957,7 +960,35 @@ public class EECCAlgorithm1 {
             
         }
         System.out.println();
+        //Convert Path Follow Target
+        convertEECCfollowTarget();
     }
+    
+    void convertEECCfollowTarget() {
+		List<List<List<Integer>>> ListofListResult = new ArrayList<>(); 
+		for (int i =0; i < mListofListEECC.size();i++) {
+			//
+			List<List<Integer>> ListResultCoverSet = new ArrayList<>();
+			List<List<Integer>> ListCoverSet = mListofListEECC.get(i);
+			for (int j =0; j< T; j++) {
+				for (int k =0; k < ListCoverSet.size(); k++) {
+					List<Integer> path = ListCoverSet.get(k);
+					if (Distance[path.get(0)][N +j] <= Rs) {
+						ListResultCoverSet.add(path);
+						break;
+					}
+					
+				}
+				
+			}
+			ListofListResult.add(ListResultCoverSet);
+			System.out.println("converEECCfollowTarget CoverSet="+i+ " Size="+ListofListResult.get(i).size());
+			
+		}
+		
+		//Reurn result
+		mListofListEECC = ListofListResult;
+	}
     
     public void showViewTest(List<Integer> listSensor) {                                            
 //        // TODO add your handling code here:

@@ -6,8 +6,10 @@
 package autocomparealgorithm2;
 
 import static autocomparealgorithm2.SensorUtility.*;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,7 +25,7 @@ public class AutoCompareAlgorithm2 {
      */
    public static long timeRuning;
     public static double timeLifeOn;
-    public static String mPath = "E:\\HIEU\\CAO HOC\\Testcase\\";
+    public static String mPath = "E:\\HIEU\\HOC TAP\\CAO HOC\\Testcase\\NewTestCase\\";
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -31,7 +33,7 @@ public class AutoCompareAlgorithm2 {
         EECCAlgorithm1 algorithm = new EECCAlgorithm1();
         //initData();
         //Chay test case tu 6 den 10
-        for (int i = 13; i <= 13; i++) {
+        for (int i = 11; i <= 11; i++) {
             try {
                 //Cai dat ten File
                 String filename = "test"+i+".INP";
@@ -47,7 +49,7 @@ public class AutoCompareAlgorithm2 {
                 Logger.getLogger(AutoCompareAlgorithm2.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                writeResultFile(mPath+"NewCompareResult2.txt", i, timeRuning, timeLifeOn); //Url luu file input duoc sinh ra
+                writeResultFile(mPath+"NewCompareResult11.txt", i, timeRuning, timeLifeOn); //Url luu file input duoc sinh ra
                 resetData();
             } catch (IOException ex) {
                 Logger.getLogger(AutoCompareAlgorithm2.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,8 +74,43 @@ public class AutoCompareAlgorithm2 {
         fw.write("Sensor="+mListSensorNodes.size() + "  Target="+mListTargetNodes.size()+ "  Sink="+mListSinkNodes.size()+ "  Rs="+mRsValue +"  Rc="+mRcValue +"  MaxHop="+mMaxHopper+"\n");
         fw.write("Time Run = "+ timeRuning+" , Time Life = "+ timLife+"\n");//appends the string to the file
         fw.write("\n");
+        writeCoverSetDataToFile(fw);
+        fw.write("\n--------------------------------------------\n");
         fw.close();
 
+    }
+    
+	/*
+	 * public static void writeCoverSetDataToFile(FileWriter fw) throws IOException{
+	 * //Data mListofListCMLCT and mListofListTime in SensorUtility if (fw == null)
+	 * return; for (int i =0; i< mListofListEECC.size(); i++) { List<List<Integer>>
+	 * coverSet = mListofListEECC.get(i); fw.write("CoverSet "+ i+ ": "); for (int j
+	 * =0; j< coverSet.size(); j++) { List<Integer> path = coverSet.get(j);
+	 * fw.write(path.get(0)+ "-"+path.get(path.size()-1) +"; "); } fw.write("\n"); }
+	 * //Clear Data mListofListEECC.clear(); mListofListPathTime.clear(); }
+	 */
+    
+    public static void writeCoverSetDataToFile(FileWriter fw) throws IOException{
+    	//Data mListofListCMLCT and mListofListTime in SensorUtility
+    	if (fw == null) return;
+    	System.out.println("writeCoverSetDataToFile EECC---------------------------");
+		fw.write(""+mListofListEECC.size()+"\n");
+    	for (int i =0; i< mListofListEECC.size(); i++) {
+    		List<List<Integer>> coverSet = mListofListEECC.get(i);
+    		System.out.println("CoverSet ="+i+ " SizeCCP="+coverSet.size() + " TimeCoverSet="+mListofListTime.get(i));
+    		fw.write(""+coverSet.size()+" "+mListofListTime.get(i)+"\n");
+    		for (int j =0; j< coverSet.size(); j++) {
+    			List<Integer> path = coverSet.get(j);
+    			fw.write(""+path.size());
+    			for (int k =0; k< path.size(); k++) {
+    			   fw.write(" "+path.get(k));
+    			}
+    			fw.write("\n");
+    		}
+    	}
+    	//Clear Data
+    	mListofListEECC.clear();
+    	mListofListTime.clear();
     }
     
     static void resetData() {

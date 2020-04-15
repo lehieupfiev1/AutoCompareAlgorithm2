@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  * @author Hieu
  */
 public final class SensorUtility {
-    public static int MaxColum =1001;
+	public static int MaxColum =1001;
     public static int MaxRow =1001;
     public static int numberColum =200;
     public static int marginPanel =20;
@@ -39,6 +39,7 @@ public final class SensorUtility {
     public static List<List<NodeItem>> mListofListSensor = new ArrayList<List<NodeItem>>();
     public static List<List<PathItem>> mListofListPath = new ArrayList<>();
     public static List<List<Double>> mListofListPathTime = new ArrayList<>();
+    public static List<List<List<Integer>>> mListofListEECC = new ArrayList<>();
     public static List<Double> mListofListTime = new ArrayList<>();
     public static List<Color> mListColor = new ArrayList<>();
     public static List<Integer> mPathSensor;
